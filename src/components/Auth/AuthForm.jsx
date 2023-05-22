@@ -23,9 +23,9 @@ const AuthForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSendingReq(true);
-    try {
+    if (isLogin) {
       const response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAXmI1MuvSeNwcSdahEZY4e6l97BdaiBhk",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAXmI1MuvSeNwcSdahEZY4e6l97BdaiBhk",
         {
           method: "POST",
           body: JSON.stringify({
@@ -45,14 +45,38 @@ const AuthForm = () => {
         const data = await response.json();
         alert(data.error.message);
       }
-      setSendingReq(false);
-      setFormData({
-        email: "",
-        password: "",
-      });
-    } catch (error) {
-      console.log(error);
+    } else {
+      try {
+        const response = await fetch(
+          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAXmI1MuvSeNwcSdahEZY4e6l97BdaiBhk",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              email,
+              password,
+              returnSecureToken: true,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+        } else {
+          const data = await response.json();
+          alert(data.error.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
+    setSendingReq(false);
+    setFormData({
+      email: "",
+      password: "",
+    });
   };
 
   const switchAuthModeHandler = () => {
