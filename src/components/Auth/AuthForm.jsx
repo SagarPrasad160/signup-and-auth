@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import classes from "./AuthForm.module.css";
+
+import authContext from "../../context/authContext";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [sendingReq, setSendingReq] = useState(false);
+
+  const { handleLogIn } = useContext(authContext);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -40,7 +44,7 @@ const AuthForm = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        handleLogIn(data.idToken);
       } else {
         const data = await response.json();
         alert(data.error.message);
