@@ -50,6 +50,7 @@ const AuthForm = () => {
         const data = await response.json();
         handleLogIn(data.idToken);
         navigate("/profile");
+        localStorage.setItem("token", JSON.stringify(data.idToken));
       } else {
         const data = await response.json();
         alert(data.error.message);

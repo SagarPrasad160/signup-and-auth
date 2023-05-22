@@ -14,6 +14,7 @@ const MainNavigation = () => {
 
   const handleClick = () => {
     handleLogOut();
+    localStorage.clear();
     navigate("/");
   };
 
