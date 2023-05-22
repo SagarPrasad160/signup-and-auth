@@ -4,8 +4,12 @@ import { useContext, useState } from "react";
 
 import authContext from "../../context/authContext";
 
+import { useNavigate } from "react-router-dom";
+
 const ProfileForm = () => {
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const { token } = useContext(authContext);
 
@@ -27,6 +31,7 @@ const ProfileForm = () => {
     );
     const data = await response.json();
     console.log(data);
+    navigate("/");
   };
 
   return (

@@ -4,11 +4,15 @@ import classes from "./AuthForm.module.css";
 
 import authContext from "../../context/authContext";
 
+import { useNavigate } from "react-router-dom";
+
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [sendingReq, setSendingReq] = useState(false);
 
   const { handleLogIn } = useContext(authContext);
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -45,6 +49,7 @@ const AuthForm = () => {
       if (response.ok) {
         const data = await response.json();
         handleLogIn(data.idToken);
+        navigate("/profile");
       } else {
         const data = await response.json();
         alert(data.error.message);

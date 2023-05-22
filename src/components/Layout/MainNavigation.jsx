@@ -5,11 +5,16 @@ import classes from "./MainNavigation.module.css";
 import authContext from "../../context/authContext";
 import { useContext } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 const MainNavigation = () => {
   const { isLoggedIn, handleLogOut } = useContext(authContext);
 
+  const navigate = useNavigate();
+
   const handleClick = () => {
     handleLogOut();
+    navigate("/");
   };
 
   return (
