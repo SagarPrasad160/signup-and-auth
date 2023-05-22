@@ -10,10 +10,15 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [sendingReq, setSendingReq] = useState(false);
 
-  const { handleLogIn } = useContext(authContext);
+  const { handleLogIn, handleLogOut } = useContext(authContext);
 
   const navigate = useNavigate();
 
+  const handleAutoLogOut = () => {
+    setTimeout(() => {
+      handleLogOut();
+    }, 300000);
+  };
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -51,6 +56,7 @@ const AuthForm = () => {
         handleLogIn(data.idToken);
         navigate("/profile");
         localStorage.setItem("token", JSON.stringify(data.idToken));
+        handleAutoLogOut();
       } else {
         const data = await response.json();
         alert(data.error.message);
